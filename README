@@ -1,0 +1,21 @@
+# ---------------------------------------------------------------------------------------------
+# Example of setting up Shotgun with cloud computing support via Google Apps
+#
+# Maintained by: Rob Blau
+# ---------------------------------------------------------------------------------------------
+
+-- ami.py
+Example action menu item
+
+-- main.py
+Example axternal api use
+
+-- mail.py
+Example mail handler
+
+-- events.py
+Example event handler
+Added Field - Processed By Mandrel
+
+TODO
+- Tie authentication into Shotgun

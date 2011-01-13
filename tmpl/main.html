@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link type="text/css" rel="stylesheet" href="/css/style.css"/>
+        <title>Mandrel: Example Shotgun Calls</title>
+    </head>
+    <body>
+        {{ proj.name }}<p/>
+        <form action="/edit_descriptions" method="post">
+            <table>
+                <thead>
+                    <tr>
+                        <th>code</th>
+                        <td>description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for v in vers %}
+                    <tr>
+                        <td><a href="{{ config.shotgun.site }}/detail/Version/{{ v.id }}">{{ v.code }}</a><br/></td>
+                        <td style="width: 100%"><textarea name="{{ v.id }}" cols="80">{{ v.description }}</textarea></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        <input type="submit" value="Submit"/>
+        </form>
+    </body>
+</html>

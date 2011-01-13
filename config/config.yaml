@@ -1,0 +1,4 @@
+shotgun:
+    site: https://milkbar.shotgunstudio.com
+    script: mandrel
+    project: Demo Animation Project

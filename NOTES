@@ -1,0 +1,17 @@
+import shotgun_api3
+limit = 5000
+sg = shotgun_api3.Shotgun("https://milkbar.shotgunstudio.com", "mandrel", "35679bfacb4a93a5db109e75b56c40d08b89d73d")
+events = sg.find('EventLogEntry', [['sg_processed_by_mandrel', 'is', False]], limit=limit)
+while events:
+    reqs = []
+    for event in events:
+        reqs.append({
+            'request_type': 'update',
+            'entity_type': 'EventLogEntry',
+            'entity_id': event['id'],
+            'data': {
+                'sg_processed_by_mandrel': True,
+            }
+        })
+    results = sg.batch(reqs)
+    events = sg.find('EventLogEntry', [['sg_processed_by_mandrel', 'is', False]], limit=limit)

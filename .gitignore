@@ -1,0 +1,16 @@
+# vim temp files
+#################
+.*.swn
+.*.swo
+.*.swp
+
+# compiled python files
+#################
+*.pyc
+
+# OS generated files #
+######################
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db

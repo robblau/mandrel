@@ -1,0 +1,31 @@
+# Local upload
+# appcfg.py upload_data --url http://localhost:8081/admin/remote_api --filename=test_data.sql3 ..
+# Remote download
+# appcfg.py download_data --filename test_data.sql3 ..
+python_preamble:
+- import: base64
+- import: re
+- import: google.appengine.ext.bulkload.transform
+- import: google.appengine.ext.bulkload.bulkloader_wizard
+- import: google.appengine.ext.db
+- import: google.appengine.api.datastore
+- import: google.appengine.api.users
+- import: app.connection
+
+transformers:
+- kind: ShotgunScript
+  connector: csv
+  connector_options:
+    - skip_import_header_row: true
+    - print_export_header_row: true
+  property_map:
+    - property: api_key
+      external_name: api_key
+      # Type: String Stats: 1 properties of this type in this kind.
+    - property: base_url
+      external_name: base_url
+      # Type: String Stats: 1 properties of this type in this kind.
+    - property: script_name
+      external_name: script_name
+      # Type: String Stats: 1 properties of this type in this kind.
+

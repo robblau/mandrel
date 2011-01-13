@@ -1,0 +1,4 @@
+cron:
+- description: event log processor
+  url: /tasks/events
+  schedule: every 5 minutes

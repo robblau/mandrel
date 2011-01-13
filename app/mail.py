@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Copyright 2007 Google Inc.
+# Copyright 2011 Robert Blau
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,21 +13,23 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
+import email
+import logging
+
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
+from google.appengine.ext.webapp import mail_handlers
 
+import app.connection
 
-class MainHandler(webapp.RequestHandler):
-    def get(self):
-        self.response.out.write('Hello world!')
-
+class TixMailHandler(mail_handlers.InboundMailHandler):
+    def receive(self, message):
+        logging.info("Received a message from: " + message.sender)
 
 def main():
-    application = webapp.WSGIApplication([('/', MainHandler)],
-                                         debug=True)
+    application = webapp.WSGIApplication([TixMailHandler.mapping()], debug=True)
     util.run_wsgi_app(application)
-
 
 if __name__ == '__main__':
     main()
+
