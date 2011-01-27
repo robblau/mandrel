@@ -17,6 +17,7 @@ import os
 import yaml
 import logging
 
+from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
@@ -25,14 +26,19 @@ import app.connection
 
 class MainHandler(webapp.RequestHandler):
     def get(self):
+        user = users.get_current_user()
         cfile = file('../config/config.yaml', 'r')
         config = yaml.load(cfile)
         cfile.close()
-        logging.info("CONFIG: %s", config)
-        sg = app.connection.connect(config['shotgun']['site'], config['shotgun']['script'])
-        proj = sg.find_one('Project', [['name', 'is', config['shotgun']['project']]], fields=['id', 'name'])
-        vers = sg.find('Version', [['project', 'is', {'type': 'Project', 'id': proj['id']}]], fields=['code', 'description'], limit=10)
-        self.response.out.write(template.render('../tmpl/main.html', locals()))
+        sg = app.connection.connect(config['shotgun']['site'], config['shotgun']['script'], config['shotgun']['key'])
+        sg_user = sg.find_one('HumanUser', [['sg_google_id', 'is', user.user_id()]])
+        if sg_user is None:
+            self.response.out.write(template.render('../tmpl/unknown_user.html', locals()))
+        else:
+            logout_url = users.create_logout_url("/")
+            proj = sg.find_one('Project', [['name', 'is', config['shotgun']['project']]], fields=['id', 'name'])
+            vers = sg.find('Version', [['project', 'is', {'type': 'Project', 'id': proj['id']}]], fields=['code', 'description'], limit=10)
+            self.response.out.write(template.render('../tmpl/main.html', locals()))
 
 class EditDescriptionsHandler(webapp.RequestHandler):
     def post(self):

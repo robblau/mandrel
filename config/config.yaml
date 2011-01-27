@@ -1,4 +1,5 @@
 shotgun:
     site: https://milkbar.shotgunstudio.com
     script: mandrel
+    key: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN
     project: Demo Animation Project

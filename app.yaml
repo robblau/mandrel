@@ -31,3 +31,4 @@ handlers:
 
 - url: /.*
   script: app/main.py
+  login: required

@@ -14,23 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from google.appengine.ext import db
-
 import lib.shotgun_api3
 
-class ShotgunScript(db.Model):
-    base_url = db.StringProperty(verbose_name='Base Url', required=True)
-    script_name = db.StringProperty(verbose_name='Script Name', required=True)
-    api_key = db.StringProperty(verbose_name='API Key', required=True)
-
-def connect(url, script):
-    query = ShotgunScript.all()
-    query.filter("base_url =", url)
-    query.filter("script_name =", script)
-    matches = query.fetch(2)
-    if len(matches) == 0:
-        raise ValueError("Script not found: %s at %s" % (script, url))
-    if len(matches) > 1:
-        raise ValueError("Multiple scripts found: %s at %s" % (script, url))
-    script = matches[0]
-    return lib.shotgun_api3.Shotgun(script.base_url, script.script_name, script.api_key, convert_datetimes_to_utc=False)
+def connect(url, script, key):
+    return lib.shotgun_api3.Shotgun(url, script, key, convert_datetimes_to_utc=False)

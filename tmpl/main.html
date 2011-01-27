@@ -6,7 +6,9 @@
         <title>Mandrel: Example Shotgun Calls</title>
     </head>
     <body>
-        {{ proj.name }}<p/>
+        <span style="float: right;"><a href="{{ logout_url }}">Logout</a></span>
+        <h1>{{ proj.name }}</h1><p/>
+        Edit some version descriptions.<p/>
         <form action="/edit_descriptions" method="post">
             <table>
                 <thead>
